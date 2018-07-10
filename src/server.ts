@@ -21,9 +21,9 @@ function cors(req: any, res: any, next: any) {
     return next();
 }
 
+app.options('*', cors);
 app.use(validateJwt);
 app.use(json());
-app.options('*', cors);
 
 app.get('/events', async (req, res) => {
     try {
