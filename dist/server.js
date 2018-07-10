@@ -18,13 +18,13 @@ const objectidvalidator_1 = require("./middleware/objectidvalidator");
 const app = express();
 mongoose_1.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
 function cors(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*"); // restrict it to the required domain
+    res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Content-type,Accept,Authorization");
     if (req.method === "OPTIONS") {
-        res.header('Access-Control-Allow-Origin', req.headers.origin);
+        return res.status(200).end();
     }
-    else {
-        res.header('Access-Control-Allow-Origin', '*');
-    }
-    next();
+    return next();
 }
 app.use(authenticator_1.validateJwt);
 app.use(body_parser_1.json());

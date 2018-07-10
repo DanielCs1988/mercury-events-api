@@ -9,13 +9,16 @@ import {validateObjectId} from "./middleware/objectidvalidator";
 const app = express();
 connect(process.env.MONGODB_URI!, {useNewUrlParser: true});
 
-function cors(req: any, res: express.Response, next: express.NextFunction) {
+function cors(req: any, res: any, next: any) {
+    res.header("Access-Control-Allow-Origin", "*"); // restrict it to the required domain
+    res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Content-type,Accept,Authorization");
+
     if (req.method === "OPTIONS") {
-        res.header('Access-Control-Allow-Origin', req.headers.origin);
-    } else {
-        res.header('Access-Control-Allow-Origin', '*');
+        return res.status(200).end();
     }
-    next();
+
+    return next();
 }
 
 app.use(validateJwt);
