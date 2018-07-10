@@ -5,21 +5,10 @@ import {validateJwt} from "./middleware/authenticator";
 import {Event} from "./models/event.model";
 import {pick} from 'lodash';
 import {validateObjectId} from "./middleware/objectidvalidator";
+import {cors} from "./middleware/cors";
 
 const app = express();
 connect(process.env.MONGODB_URI!, {useNewUrlParser: true});
-
-function cors(req: any, res: any, next: any) {
-    res.header("Access-Control-Allow-Origin", "*"); // restrict it to the required domain
-    res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
-    res.header("Access-Control-Allow-Headers", "Content-type,Accept,Authorization");
-
-    if (req.method === "OPTIONS") {
-        return res.status(200).end();
-    }
-
-    return next();
-}
 
 app.use(cors);
 app.use(validateJwt);

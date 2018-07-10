@@ -15,18 +15,10 @@ const authenticator_1 = require("./middleware/authenticator");
 const event_model_1 = require("./models/event.model");
 const lodash_1 = require("lodash");
 const objectidvalidator_1 = require("./middleware/objectidvalidator");
+const cors_1 = require("./middleware/cors");
 const app = express();
 mongoose_1.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
-function cors(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*"); // restrict it to the required domain
-    res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
-    res.header("Access-Control-Allow-Headers", "Content-type,Accept,Authorization");
-    if (req.method === "OPTIONS") {
-        return res.status(200).end();
-    }
-    return next();
-}
-app.use(cors);
+app.use(cors_1.cors);
 app.use(authenticator_1.validateJwt);
 app.use(body_parser_1.json());
 app.get('/events', (req, res) => __awaiter(this, void 0, void 0, function* () {
