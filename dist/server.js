@@ -26,7 +26,7 @@ function cors(req, res, next) {
     }
     return next();
 }
-app.options('*', cors);
+app.use(cors);
 app.use(authenticator_1.validateJwt);
 app.use(body_parser_1.json());
 app.get('/events', (req, res) => __awaiter(this, void 0, void 0, function* () {
