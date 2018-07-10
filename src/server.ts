@@ -9,8 +9,18 @@ import {validateObjectId} from "./middleware/objectidvalidator";
 const app = express();
 connect(process.env.MONGODB_URI!, {useNewUrlParser: true});
 
+function cors(req: any, res: express.Response, next: express.NextFunction) {
+    if (req.method === "OPTIONS") {
+        res.header('Access-Control-Allow-Origin', req.headers.origin);
+    } else {
+        res.header('Access-Control-Allow-Origin', '*');
+    }
+    next();
+}
+
 app.use(validateJwt);
 app.use(json());
+app.options('*', cors);
 
 app.get('/events', async (req, res) => {
     try {

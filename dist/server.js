@@ -17,8 +17,18 @@ const lodash_1 = require("lodash");
 const objectidvalidator_1 = require("./middleware/objectidvalidator");
 const app = express();
 mongoose_1.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
+function cors(req, res, next) {
+    if (req.method === "OPTIONS") {
+        res.header('Access-Control-Allow-Origin', req.headers.origin);
+    }
+    else {
+        res.header('Access-Control-Allow-Origin', '*');
+    }
+    next();
+}
 app.use(authenticator_1.validateJwt);
 app.use(body_parser_1.json());
+app.options('*', cors);
 app.get('/events', (req, res) => __awaiter(this, void 0, void 0, function* () {
     try {
         const events = yield yield event_model_1.Event.find({});
