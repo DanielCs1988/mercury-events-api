@@ -73,15 +73,23 @@ app.put('/events/:id', validateObjectId, async (req, res) => {
 
 app.post('/events/:id', validateObjectId, async (req, res) => {
     const id = req.params.id;
+    const user = req.user.sub;
     try {
-        const event = await Event.findByIdAndUpdate(
-            id, {$addToSet: { participants: req.user.sub }}
-        );
-        if (event) {
-            res.send(event);
+        let event = await Event.findById(id);
+        if (!event) {
+            res.status(404).send({error: 'Could not find an event with that id!'});
             return;
         }
-        res.status(404).send({error: 'Could not find an event with that id!'});
+        if (event.participants.find(participant => participant === user)) {
+            event = await Event.findByIdAndUpdate(
+                id, { $pull: { participants: user } }
+            );
+        } else {
+            event = await Event.findByIdAndUpdate(
+                id, { $addToSet: { participants: user } }
+            );
+        }
+        res.send(event);
     } catch (e) {
         res.status(400).send({error: 'Could not reach database!'});
     }

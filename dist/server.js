@@ -72,13 +72,20 @@ app.put('/events/:id', objectidvalidator_1.validateObjectId, (req, res) => __awa
 }));
 app.post('/events/:id', objectidvalidator_1.validateObjectId, (req, res) => __awaiter(this, void 0, void 0, function* () {
     const id = req.params.id;
+    const user = req.user.sub;
     try {
-        const event = yield event_model_1.Event.findByIdAndUpdate(id, { $addToSet: { participants: req.user.sub } });
-        if (event) {
-            res.send(event);
+        let event = yield event_model_1.Event.findById(id);
+        if (!event) {
+            res.status(404).send({ error: 'Could not find an event with that id!' });
             return;
         }
-        res.status(404).send({ error: 'Could not find an event with that id!' });
+        if (event.participants.find(participant => participant === user)) {
+            event = yield event_model_1.Event.findByIdAndUpdate(id, { $pull: { participants: user } });
+        }
+        else {
+            event = yield event_model_1.Event.findByIdAndUpdate(id, { $addToSet: { participants: user } });
+        }
+        res.send(event);
     }
     catch (e) {
         res.status(400).send({ error: 'Could not reach database!' });
