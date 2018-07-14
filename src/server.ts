@@ -78,7 +78,7 @@ app.post('/events/:id', validateObjectId, async (req, res) => {
             id, {$addToSet: { participants: req.user.sub }}
         );
         if (event) {
-            res.status(200).send();
+            res.send(event);
             return;
         }
         res.status(404).send({error: 'Could not find an event with that id!'});

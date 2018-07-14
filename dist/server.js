@@ -75,7 +75,7 @@ app.post('/events/:id', objectidvalidator_1.validateObjectId, (req, res) => __aw
     try {
         const event = yield event_model_1.Event.findByIdAndUpdate(id, { $addToSet: { participants: req.user.sub } });
         if (event) {
-            res.status(200).send();
+            res.send(event);
             return;
         }
         res.status(404).send({ error: 'Could not find an event with that id!' });
