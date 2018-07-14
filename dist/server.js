@@ -80,10 +80,10 @@ app.post('/events/:id', objectidvalidator_1.validateObjectId, (req, res) => __aw
             return;
         }
         if (event.participants.find(participant => participant === user)) {
-            event = yield event_model_1.Event.findByIdAndUpdate(id, { $pull: { participants: user } });
+            event = yield event_model_1.Event.findByIdAndUpdate(id, { $pull: { participants: user } }, { new: true });
         }
         else {
-            event = yield event_model_1.Event.findByIdAndUpdate(id, { $addToSet: { participants: user } });
+            event = yield event_model_1.Event.findByIdAndUpdate(id, { $addToSet: { participants: user } }, { new: true });
         }
         res.send(event);
     }

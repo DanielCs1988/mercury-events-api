@@ -82,11 +82,11 @@ app.post('/events/:id', validateObjectId, async (req, res) => {
         }
         if (event.participants.find(participant => participant === user)) {
             event = await Event.findByIdAndUpdate(
-                id, { $pull: { participants: user } }
+                id, { $pull: { participants: user } }, {new: true}
             );
         } else {
             event = await Event.findByIdAndUpdate(
-                id, { $addToSet: { participants: user } }
+                id, { $addToSet: { participants: user } }, {new: true}
             );
         }
         res.send(event);
