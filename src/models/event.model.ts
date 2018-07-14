@@ -7,6 +7,7 @@ export interface EventModel extends Document {
     createdAt: number,
     startDate: number;
     endDate: number;
+    location: string;
     organizer: string;
     participants: string[];
 }
@@ -38,6 +39,12 @@ const EventSchema = new Schema({
     endDate: {
         type: Number,
         required: true
+    },
+    location: {
+        type: String,
+        required: true,
+        minlength: 1,
+        trim: true
     },
     organizer: {
         type: String,

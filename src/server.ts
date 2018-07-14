@@ -39,7 +39,7 @@ app.get('/events/:id', validateObjectId, async (req, res) => {
 
 app.post('/events', async (req, res) => {
     const newEvent = new Event(pick(req.body,
-        ['name', 'description', 'pictureUrl', 'startDate', 'endDate']
+        ['name', 'description', 'pictureUrl', 'startDate', 'endDate', 'location']
     ));
     newEvent.organizer = req.user.sub;
     try {
@@ -53,7 +53,7 @@ app.post('/events', async (req, res) => {
 
 app.put('/events/:id', validateObjectId, async (req, res) => {
     const id = req.params.id;
-    const body: any = pick(req.body, ['name', 'description', 'pictureUrl', 'startDate', 'endDate']);
+    const body: any = pick(req.body, ['name', 'description', 'pictureUrl', 'startDate', 'endDate', 'location']);
 
     try {
         const event = await Event.findOneAndUpdate(

@@ -45,7 +45,7 @@ app.get('/events/:id', objectidvalidator_1.validateObjectId, (req, res) => __awa
     }
 }));
 app.post('/events', (req, res) => __awaiter(this, void 0, void 0, function* () {
-    const newEvent = new event_model_1.Event(lodash_1.pick(req.body, ['name', 'description', 'pictureUrl', 'startDate', 'endDate']));
+    const newEvent = new event_model_1.Event(lodash_1.pick(req.body, ['name', 'description', 'pictureUrl', 'startDate', 'endDate', 'location']));
     newEvent.organizer = req.user.sub;
     try {
         const savedEvent = yield newEvent.save();
@@ -57,7 +57,7 @@ app.post('/events', (req, res) => __awaiter(this, void 0, void 0, function* () {
 }));
 app.put('/events/:id', objectidvalidator_1.validateObjectId, (req, res) => __awaiter(this, void 0, void 0, function* () {
     const id = req.params.id;
-    const body = lodash_1.pick(req.body, ['name', 'description', 'pictureUrl', 'startDate', 'endDate']);
+    const body = lodash_1.pick(req.body, ['name', 'description', 'pictureUrl', 'startDate', 'endDate', 'location']);
     try {
         const event = yield event_model_1.Event.findOneAndUpdate({ _id: id, organizer: req.user.sub }, { $set: body }, { new: true });
         if (event) {

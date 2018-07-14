@@ -29,6 +29,12 @@ const EventSchema = new mongoose_1.Schema({
         type: Number,
         required: true
     },
+    location: {
+        type: String,
+        required: true,
+        minlength: 1,
+        trim: true
+    },
     organizer: {
         type: String,
         required: true
