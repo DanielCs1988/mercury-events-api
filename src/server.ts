@@ -46,7 +46,7 @@ app.post('/events', async (req, res) => {
         const savedEvent = await newEvent.save();
         res.send(savedEvent);
     } catch (e) {
-        res.status(400).send(e);
+        res.status(400).send({error: `Could not save event. Reason: ${e}`});
     }
 
 });
@@ -67,7 +67,7 @@ app.put('/events/:id', validateObjectId, async (req, res) => {
         }
         res.status(404).send({error: 'Could not find an event with that id!'});
     } catch (e) {
-        res.status(400).send({error: 'Could not reach database!'});
+        res.status(400).send({error: 'Could not reach database!', eventId: id});
     }
 });
 
@@ -91,7 +91,7 @@ app.post('/events/:id', validateObjectId, async (req, res) => {
         }
         res.send(event);
     } catch (e) {
-        res.status(400).send({error: 'Could not reach database!'});
+        res.status(400).send({error: 'Could not reach database!', eventId: id});
     }
 });
 
@@ -105,7 +105,7 @@ app.delete('/events/:id', validateObjectId, async (req, res) => {
         }
         res.status(404).send({error: 'Could not find an event with that id!'});
     } catch (e) {
-        res.status(400).send({error: 'Could not reach database!'});
+        res.status(400).send({error: 'Could not reach database!', eventId: id});
     }
 });
 
