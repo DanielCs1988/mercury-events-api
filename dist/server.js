@@ -67,7 +67,7 @@ app.put('/events/:id', objectidvalidator_1.validateObjectId, (req, res) => __awa
         res.status(404).send({ error: 'Could not find an event with that id!' });
     }
     catch (e) {
-        res.status(400).send({ error: 'Could not reach database!', eventId: id });
+        res.status(400).send({ error: 'Could not reach database!' });
     }
 }));
 app.post('/events/:id', objectidvalidator_1.validateObjectId, (req, res) => __awaiter(this, void 0, void 0, function* () {
@@ -88,7 +88,7 @@ app.post('/events/:id', objectidvalidator_1.validateObjectId, (req, res) => __aw
         res.send(event);
     }
     catch (e) {
-        res.status(400).send({ error: 'Could not reach database!', eventId: id });
+        res.status(400).send({ error: 'Could not reach database!' });
     }
 }));
 app.delete('/events/:id', objectidvalidator_1.validateObjectId, (req, res) => __awaiter(this, void 0, void 0, function* () {
@@ -102,7 +102,7 @@ app.delete('/events/:id', objectidvalidator_1.validateObjectId, (req, res) => __
         res.status(404).send({ error: 'Could not find an event with that id!' });
     }
     catch (e) {
-        res.status(400).send({ error: 'Could not reach database!', eventId: id });
+        res.status(400).send({ error: 'Could not reach database!' });
     }
 }));
 app.listen(process.env.PORT, () => console.log(`Server listening on port ${process.env.PORT}...`));
